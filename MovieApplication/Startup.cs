@@ -7,8 +7,12 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using MovieApplication.Core.Data;
+using MovieApplication.Core.Repositories;
+using MovieApplication.Core.Repositories.Interfaces;
 
 namespace MovieApplication
 {
@@ -31,6 +35,10 @@ namespace MovieApplication
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
 
+            services.AddTransient<IUserRepository, UserRepository>();
+            services.AddTransient<IMovieRepository, MovieRepository>();
+
+            services.AddDbContext<MovieApplicationDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("Default")));
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
         }
