@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.28307.168
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MovieApplication", "MovieApplication\MovieApplication.csproj", "{9F04C726-84E2-40F4-A20F-7748D3CBEDC0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MovieApplication", "MovieApplication\MovieApplication.csproj", "{9F04C726-84E2-40F4-A20F-7748D3CBEDC0}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Presentation", "Presentation", "{1B4EB432-1C7A-4209-A81A-6E0DBAAC7E43}"
 EndProject
@@ -11,13 +11,17 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Core", "Core", "{9CF28566-0
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Domain", "Domain", "{3DC240E5-8224-45DB-9A5B-9D2351E665A4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MovieApplication.Core", "MovieApplication.Core\MovieApplication.Core.csproj", "{1FF12377-30A3-4FCF-BCD7-FD5BF73AD46E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MovieApplication.Core", "MovieApplication.Core\MovieApplication.Core.csproj", "{1FF12377-30A3-4FCF-BCD7-FD5BF73AD46E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MovieApplication.Core.Data", "MovieApplication.Core.Data\MovieApplication.Core.Data.csproj", "{B251B7C1-DF7B-4519-BF8A-B1353183F3AA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MovieApplication.Core.Data", "MovieApplication.Core.Data\MovieApplication.Core.Data.csproj", "{B251B7C1-DF7B-4519-BF8A-B1353183F3AA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MovieApplication.Domain.Dto", "MovieApplication.Domain.Dto\MovieApplication.Domain.Dto.csproj", "{D2AC69E9-B05C-43AD-BD4B-DBCB34E25430}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MovieApplication.Domain.Dto", "MovieApplication.Domain.Dto\MovieApplication.Domain.Dto.csproj", "{D2AC69E9-B05C-43AD-BD4B-DBCB34E25430}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MovieApplication.Domain.Mapper", "MovieApplication.Domain.Mapper\MovieApplication.Domain.Mapper.csproj", "{30F55AAC-AC44-4497-BF80-E6C0A43A96D8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MovieApplication.Domain.Mapper", "MovieApplication.Domain.Mapper\MovieApplication.Domain.Mapper.csproj", "{30F55AAC-AC44-4497-BF80-E6C0A43A96D8}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Helpers", "Helpers", "{B118C0C3-3194-4BC9-969C-F9C40B4E9541}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MovieApplication.Helpers", "MovieApplication.Helpers\MovieApplication.Helpers.csproj", "{2CF6677A-CA40-495F-9FF3-7BA761ABBC7A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -45,6 +49,10 @@ Global
 		{30F55AAC-AC44-4497-BF80-E6C0A43A96D8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{30F55AAC-AC44-4497-BF80-E6C0A43A96D8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{30F55AAC-AC44-4497-BF80-E6C0A43A96D8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2CF6677A-CA40-495F-9FF3-7BA761ABBC7A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2CF6677A-CA40-495F-9FF3-7BA761ABBC7A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2CF6677A-CA40-495F-9FF3-7BA761ABBC7A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2CF6677A-CA40-495F-9FF3-7BA761ABBC7A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -55,6 +63,7 @@ Global
 		{B251B7C1-DF7B-4519-BF8A-B1353183F3AA} = {9CF28566-0FF4-4FC2-8CE0-F37A94A2FEEB}
 		{D2AC69E9-B05C-43AD-BD4B-DBCB34E25430} = {3DC240E5-8224-45DB-9A5B-9D2351E665A4}
 		{30F55AAC-AC44-4497-BF80-E6C0A43A96D8} = {3DC240E5-8224-45DB-9A5B-9D2351E665A4}
+		{2CF6677A-CA40-495F-9FF3-7BA761ABBC7A} = {B118C0C3-3194-4BC9-969C-F9C40B4E9541}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {5149AD0D-DC5B-4DE2-AA85-3731B1F5134C}

@@ -2,22 +2,23 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using MovieApplication.Core.Repositories.Interfaces;
+using MovieApplication.Core.Service.Service.ServiceInterfaces;
 using MovieApplication.Domain.Dto.Models;
+using MovieApplication.Helper;
 
 namespace MovieApplication.Controllers
 {
     public class UserController : Controller
     {
 
-        private readonly IUserRepository _userRepository;
-        private readonly IMovieApplicationUnitOfWork _uow;
+        private readonly IUserService _userService;
 
-        public UserController(IUserRepository userRepository, IMovieApplicationUnitOfWork uow)
+        public UserController(IUserService userService)
         {
-            _userRepository = userRepository;
-            _uow = uow;
+            _userService = userService;
         }
 
         public IActionResult Login()
@@ -26,22 +27,20 @@ namespace MovieApplication.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Login(LoginRequestModel login)
+        public async Task<IActionResult> Login(User login)
         {
-            var user = _uow.User.FirstOrDefault(x => x.UserName == login.Username && x.Password == login.Password);
-            if (user == null)
-                return View("Error");
-            var token = _userRepository.GenerateToken(login.Username);
-            var session = new Session
-            {
-                Token = token,
-                UserId = user.Id,
-                ExpiryDate = (Int32)(DateTime.Now.AddDays(7).Subtract(new DateTime(1970, 1, 1))).TotalSeconds,
-            };
-            await _uow.Session.InsertAsync(session);
+            var token = await _userService.Login(login);
 
             Response.Cookies.Append("SessionToken", token);
+
             return View();
+        }
+
+        public IActionResult Logout()
+        {
+            Response.Cookies.Append("SessionToken", "new", options:new CookieOptions{Expires = DateTime.Now.AddDays(-1)});
+
+            return View("~/Views/Home/Index.cshtml");
         }
 
         public IActionResult Register()
@@ -49,20 +48,12 @@ namespace MovieApplication.Controllers
             return View();
         }
 
+       
         [HttpPost]
         public async Task<IActionResult> Register(User user)
         {
-            var registeredUser = _uow.User.InsertAsync(user);
-            var token = _userRepository.GenerateToken(user.UserName);
-            var session = new Session
-            {
-                Token = token,
-                UserId = user.Id,
-                ExpiryDate = (Int32)(DateTime.Now.AddDays(7).Subtract(new DateTime(1970, 1, 1))).TotalSeconds,
-            };
-            await _uow.Session.InsertAsync(session);
-
-            Response.Cookies.Append("SessionToken", token);
+            var token = await _userService.Register(user);
+            Response.Cookies.Append("SessionToken", token.ToString());
             return View();
         }
     }

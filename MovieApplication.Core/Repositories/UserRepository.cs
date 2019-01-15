@@ -9,6 +9,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using MovieApplication.Core.Data;
 using MovieApplication.Core.Repositories.Interfaces;
+using MovieApplication.Core.Service.Service.ServiceInterfaces;
 using MovieApplication.Domain.Dto.Models;
 
 namespace MovieApplication.Core.Repositories
@@ -18,36 +19,16 @@ namespace MovieApplication.Core.Repositories
 
         private readonly IMovieApplicationUnitOfWork _uow;
         private readonly IConfiguration _config;
+        private readonly IUserService _userService;
 
-        public UserRepository(MovieApplicationDbContext dbContext)
+
+        public UserRepository(IUserService userService,MovieApplicationDbContext dbContext)
         {
+            _userService = userService;
             _uow = new MovieApplicationUnitOfWork(dbContext);
         }
 
-        public string GenerateToken(string username)
-        {
-            var symmetricKey = Convert.FromBase64String(_config["Jwt:Key"]);
-            var tokenHandler = new JwtSecurityTokenHandler();
-            int expireInHours = 3;
-
-            var now = DateTime.UtcNow;
-            var tokenDescriptor = new SecurityTokenDescriptor
-            {
-                Subject = new ClaimsIdentity(new[]
-                {
-                    new Claim(ClaimTypes.Name, username)
-                }),
-
-                Expires = now.AddHours(Convert.ToInt32(expireInHours)),
-
-                SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(symmetricKey), SecurityAlgorithms.HmacSha256Signature)
-            };
-
-            var stoken = tokenHandler.CreateToken(tokenDescriptor);
-            var token = tokenHandler.WriteToken(stoken);
-
-            return token;
-        }
+        
 
         public async Task<User> GetUserByToken(string token)
         {
@@ -57,6 +38,18 @@ namespace MovieApplication.Core.Repositories
             var user = await _uow.User.Get(x => x.Id == userToken.UserId);
 
             return user;
+        }
+
+        public async Task<string> Register(User user)
+        {
+            var token = await _userService.Register(user);
+            return token;
+        }
+
+        public async Task<string> Login(User user)
+        {
+            var token = await _userService.Login(user);
+            return token;
         }
     }
 }

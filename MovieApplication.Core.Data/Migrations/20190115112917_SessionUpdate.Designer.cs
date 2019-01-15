@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using MovieApplication.Core.Data;
 
 namespace MovieApplication.Core.Data.Migrations
 {
     [DbContext(typeof(MovieApplicationDbContext))]
-    partial class MovieApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20190115112917_SessionUpdate")]
+    partial class SessionUpdate
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -25,11 +27,9 @@ namespace MovieApplication.Core.Data.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<string>("ImdbID");
+                    b.Property<string>("MovieName");
 
-                    b.Property<string>("Poster");
-
-                    b.Property<string>("Title");
+                    b.Property<string>("Photo");
 
                     b.HasKey("Id");
 

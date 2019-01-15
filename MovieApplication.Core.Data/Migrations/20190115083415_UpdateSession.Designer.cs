@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using MovieApplication.Core.Data;
 
 namespace MovieApplication.Core.Data.Migrations
 {
     [DbContext(typeof(MovieApplicationDbContext))]
-    partial class MovieApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20190115083415_UpdateSession")]
+    partial class UpdateSession
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -25,11 +27,9 @@ namespace MovieApplication.Core.Data.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<string>("ImdbID");
+                    b.Property<string>("MovieName");
 
-                    b.Property<string>("Poster");
-
-                    b.Property<string>("Title");
+                    b.Property<string>("Photo");
 
                     b.HasKey("Id");
 
@@ -50,6 +50,8 @@ namespace MovieApplication.Core.Data.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("UserId");
+
                     b.ToTable("Sessions");
                 });
 
@@ -66,6 +68,13 @@ namespace MovieApplication.Core.Data.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Users");
+                });
+
+            modelBuilder.Entity("MovieApplication.Domain.Dto.Models.Session", b =>
+                {
+                    b.HasOne("MovieApplication.Domain.Dto.Models.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId");
                 });
 #pragma warning restore 612, 618
         }

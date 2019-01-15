@@ -8,7 +8,8 @@ namespace MovieApplication.Core.Repositories.Interfaces
 {
     public interface IUserRepository
     {
-        string GenerateToken(string username);
+        Task<string> Login(User user);
+        Task<string> Register(User user);
         Task<User> GetUserByToken(string token);
     }
 }
