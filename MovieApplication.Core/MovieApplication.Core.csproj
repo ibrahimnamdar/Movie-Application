@@ -18,6 +18,7 @@
   <ItemGroup>
     <ProjectReference Include="..\MovieApplication.Core.Data\MovieApplication.Core.Data.csproj" />
     <ProjectReference Include="..\MovieApplication.Domain.Dto\MovieApplication.Domain.Dto.csproj" />
+    <ProjectReference Include="..\MovieApplication.Domain.Mapper\MovieApplication.Domain.Mapper.csproj" />
   </ItemGroup>
 
 </Project>

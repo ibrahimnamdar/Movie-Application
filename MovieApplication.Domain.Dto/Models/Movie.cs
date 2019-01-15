@@ -9,6 +9,6 @@ namespace MovieApplication.Domain.Dto.Models
         public int Id { get; set; }
         public string Title { get; set; }
         public string Poster { get; set; }
-        public string ImdbID { get; set; }
+        public string ImdbId { get; set; }
     }
 }
