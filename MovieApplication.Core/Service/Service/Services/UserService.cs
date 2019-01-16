@@ -77,7 +77,7 @@ namespace MovieApplication.Core.Service.Service.Services
         {
             string token = "";
             var loggedInUser = _uow.User.Get(x => x.UserName == user.UserName && x.Password == user.Password);
-            if (loggedInUser != null)
+            if (loggedInUser?.Result != null)
             {
 
 

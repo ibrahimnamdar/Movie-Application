@@ -11,7 +11,7 @@ namespace MovieApplication.Controllers
 {
     public class HomeController : Controller
     {
-        
+        [TokenValidation]
         public IActionResult Index()
         {
             return View();
@@ -24,7 +24,7 @@ namespace MovieApplication.Controllers
 
             return View();
         }
-
+        [TokenValidation]
         public IActionResult Contact()
         {
             ViewData["Message"] = "Your contact page.";

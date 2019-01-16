@@ -4,11 +4,18 @@
     <TargetFramework>netcoreapp2.1</TargetFramework>
   </PropertyGroup>
 
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <DocumentationFile></DocumentationFile>
+    <NoWarn>1701;1702</NoWarn>
+  </PropertyGroup>
+
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.App" />
     <PackageReference Include="Microsoft.AspNetCore.Razor.Design" Version="2.1.2" PrivateAssets="All" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="2.1.4" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Log4Net.AspNetCore" Version="2.2.10" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.1.1" />
+    <PackageReference Include="StackExchange.Redis" Version="2.0.519" />
   </ItemGroup>
 
   <ItemGroup>
@@ -16,6 +23,7 @@
     <ProjectReference Include="..\MovieApplication.Core\MovieApplication.Core.csproj" />
     <ProjectReference Include="..\MovieApplication.Domain.Dto\MovieApplication.Domain.Dto.csproj" />
     <ProjectReference Include="..\MovieApplication.Domain.Mapper\MovieApplication.Domain.Mapper.csproj" />
+    <ProjectReference Include="..\MovieApplication.Helpers.Hangfire\MovieApplication.Helpers.Hangfire.csproj" />
   </ItemGroup>
 
 </Project>

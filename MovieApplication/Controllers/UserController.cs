@@ -31,16 +31,17 @@ namespace MovieApplication.Controllers
         {
             var token = await _userService.Login(login);
 
-            Response.Cookies.Append("SessionToken", token);
+            if (!string.IsNullOrEmpty(token))
+                Response.Cookies.Append("SessionToken", token);
 
-            return View();
+            return RedirectToAction("Index","Home");
         }
 
         public IActionResult Logout()
         {
-            Response.Cookies.Append("SessionToken", "new", options:new CookieOptions{Expires = DateTime.Now.AddDays(-1)});
+            Response.Cookies.Append("SessionToken", "new", options: new CookieOptions { Expires = DateTime.Now.AddDays(-1) });
 
-            return View("~/Views/Home/Index.cshtml");
+            return RedirectToAction("Index", "Home");
         }
 
         public IActionResult Register()
@@ -48,13 +49,13 @@ namespace MovieApplication.Controllers
             return View();
         }
 
-       
+
         [HttpPost]
         public async Task<IActionResult> Register(User user)
         {
             var token = await _userService.Register(user);
             Response.Cookies.Append("SessionToken", token.ToString());
-            return View();
+            return RedirectToAction("Index", "Home");
         }
     }
 }

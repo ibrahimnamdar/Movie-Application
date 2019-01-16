@@ -41,10 +41,14 @@ namespace MovieApplication.Core.Service.Service.Services
 
         public async Task<Movie> InsertMovieToDbIfNotExists(Movie movie)
         {
+            if (string.IsNullOrEmpty(movie?.ImdbId))
+                return null;
+
             var movieExists = await _uow.Movie.Get(x => x.ImdbId == movie.ImdbId);
             if (movieExists == null)
             {
                 await _uow.Movie.InsertAsync(movie);
+                _uow.Save();
             }
 
             return movieExists;

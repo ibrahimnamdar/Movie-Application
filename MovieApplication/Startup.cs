@@ -4,6 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using AutoMapper;
+using Hangfire;
+using Hangfire.Common;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -13,13 +15,17 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
+using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
 using MovieApplication.Core.Data;
 using MovieApplication.Core.Repositories;
 using MovieApplication.Core.Repositories.Interfaces;
 using MovieApplication.Core.Service.Service.ServiceInterfaces;
 using MovieApplication.Core.Service.Service.Services;
+using MovieApplication.Domain.Dto.Models;
 using MovieApplication.Domain.Mapper;
+using MovieApplication.Helpers.Hangfire;
+using StackExchange.Redis;
 
 namespace MovieApplication
 {
@@ -28,6 +34,9 @@ namespace MovieApplication
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
+
+           
+
         }
 
         public IConfiguration Configuration { get; }
@@ -41,12 +50,18 @@ namespace MovieApplication
                 options.CheckConsentNeeded = context => true;
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
+            
 
             Mapper.Initialize(cfg =>
             {
                 cfg.AddProfile<MappingProfile>();
                 cfg.AllowNullCollections = true;
             });
+
+            services.AddResponseCaching();
+
+            services.AddHangfire(config =>
+                config.UseSqlServerStorage(Configuration.GetConnectionString("Default")));
 
             services.AddTransient<IUserRepository, UserRepository>();
             services.AddTransient<IUserService, UserService>();
@@ -55,6 +70,8 @@ namespace MovieApplication
             services.AddTransient<IMovieService, MovieService>();
             services.AddTransient<IMovieApplicationUnitOfWork, MovieApplicationUnitOfWork>();
             services.TryAddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+            services.AddSingleton<IConnectionMultiplexer>(ConnectionMultiplexer.Connect(Configuration.GetConnectionString("Redis")));
+
 
             services.AddDbContext<MovieApplicationDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("Default")));
             services.AddAuthentication(options =>
@@ -80,9 +97,9 @@ namespace MovieApplication
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env, IRecurringJobManager recurringJobs, ILoggerFactory loggerFactory)
         {
-            if (env.IsDevelopment())
+            recurringJobs.AddOrUpdate("UpdateMovies", Job.FromExpression<IMovieService>(x => x.UpdateAllMovies()), Cron.MinuteInterval(1)); if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
             }
@@ -91,10 +108,13 @@ namespace MovieApplication
                 app.UseExceptionHandler("/Home/Error");
                 app.UseHsts();
             }
-
             app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseCookiePolicy();
+            app.UseHangfireDashboard();
+            app.UseHangfireServer();
+            app.UseResponseCaching();
+           
 
             app.UseMvc(routes =>
             {

@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using MovieApplication.Core.Service.Service.ServiceInterfaces;
 using MovieApplication.Domain.Dto.Models;
+using MovieApplication.Helper;
 
 namespace MovieApplication.Controllers
 {
@@ -25,9 +26,11 @@ namespace MovieApplication.Controllers
         }
 
         [HttpPost]
-        public async Task<Movie> Search([FromQuery] string t)
+        [ResponseCache(Duration = 600, VaryByHeader = "*")]
+        [TokenValidation]
+        public async Task<Movie> Search([FromQuery]string query)
         {
-            var movie = await _movieIntegrationService.Search(t);
+            var movie = await _movieIntegrationService.Search(query);
             await _movieIntegrationService.InsertMovieToDbIfNotExists(movie);
 
             return movie;
