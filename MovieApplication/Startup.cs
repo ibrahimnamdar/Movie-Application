@@ -26,6 +26,7 @@ using MovieApplication.Domain.Dto.Models;
 using MovieApplication.Domain.Mapper;
 using MovieApplication.Helpers.Hangfire;
 using StackExchange.Redis;
+using Swashbuckle.AspNetCore.Swagger;
 
 namespace MovieApplication
 {
@@ -50,7 +51,11 @@ namespace MovieApplication
                 options.CheckConsentNeeded = context => true;
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
-            
+
+            services.AddSwaggerGen(c =>
+            {
+                c.SwaggerDoc("v1", new Info { Title = "MovieApplication API", Version = "v1" });
+            });
 
             Mapper.Initialize(cfg =>
             {
@@ -114,7 +119,12 @@ namespace MovieApplication
             app.UseHangfireDashboard();
             app.UseHangfireServer();
             app.UseResponseCaching();
-           
+            app.UseSwagger();
+            app.UseSwaggerUI(c =>
+            {
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "Contacts API V1");
+            });
+
 
             app.UseMvc(routes =>
             {
