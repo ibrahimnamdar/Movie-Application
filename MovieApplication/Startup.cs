@@ -24,7 +24,6 @@ using MovieApplication.Core.Service.Service.ServiceInterfaces;
 using MovieApplication.Core.Service.Service.Services;
 using MovieApplication.Domain.Dto.Models;
 using MovieApplication.Domain.Mapper;
-using MovieApplication.Helpers.Hangfire;
 using StackExchange.Redis;
 using Swashbuckle.AspNetCore.Swagger;
 
@@ -35,9 +34,6 @@ namespace MovieApplication
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
-
-           
-
         }
 
         public IConfiguration Configuration { get; }
@@ -54,7 +50,12 @@ namespace MovieApplication
 
             services.AddSwaggerGen(c =>
             {
-                c.SwaggerDoc("v1", new Info { Title = "MovieApplication API", Version = "v1" });
+                c.SwaggerDoc("v1", new Info { Title = "MovieApplication", Version = "v1" });
+
+                c.AddSecurityDefinition("Bearer", new ApiKeyScheme { In = "header", Description = "Please enter JWT with Bearer into field", Name = "Authorization", Type = "apiKey" });
+                c.AddSecurityRequirement(new Dictionary<string, IEnumerable<string>> {
+                    { "Bearer", Enumerable.Empty<string>() },
+                });
             });
 
             Mapper.Initialize(cfg =>
@@ -67,11 +68,9 @@ namespace MovieApplication
 
             services.AddHangfire(config =>
                 config.UseSqlServerStorage(Configuration.GetConnectionString("Default")));
-
-            services.AddTransient<IUserRepository, UserRepository>();
+            
             services.AddTransient<IUserService, UserService>();
             services.AddTransient<IMovieIntegrationService, OmdbService>();
-            services.AddTransient<IMovieRepository, MovieRepository>();
             services.AddTransient<IMovieService, MovieService>();
             services.AddTransient<IMovieApplicationUnitOfWork, MovieApplicationUnitOfWork>();
             services.TryAddSingleton<IHttpContextAccessor, HttpContextAccessor>();
@@ -104,6 +103,7 @@ namespace MovieApplication
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, IRecurringJobManager recurringJobs, ILoggerFactory loggerFactory)
         {
+            
             recurringJobs.AddOrUpdate("UpdateMovies", Job.FromExpression<IMovieService>(x => x.UpdateAllMovies()), Cron.MinuteInterval(1)); if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
@@ -119,11 +119,16 @@ namespace MovieApplication
             app.UseHangfireDashboard();
             app.UseHangfireServer();
             app.UseResponseCaching();
-            app.UseSwagger();
+
+            app.UseSwagger(c =>
+            {
+                c.PreSerializeFilters.Add((swagger, httpReq) => swagger.Host = httpReq.Host.Value);
+            });
             app.UseSwaggerUI(c =>
             {
-                c.SwaggerEndpoint("/swagger/v1/swagger.json", "Contacts API V1");
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "MovieApplication");
             });
+
 
 
             app.UseMvc(routes =>

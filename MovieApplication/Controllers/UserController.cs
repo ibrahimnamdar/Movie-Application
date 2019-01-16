@@ -27,9 +27,9 @@ namespace MovieApplication.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Login(User login)
+        public async Task<IActionResult> Login(User user)
         {
-            var token = await _userService.Login(login);
+            var token = await _userService.Login(user);
 
             if (!string.IsNullOrEmpty(token))
                 Response.Cookies.Append("SessionToken", token);

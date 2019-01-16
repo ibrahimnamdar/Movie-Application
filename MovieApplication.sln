@@ -21,9 +21,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MovieApplication.Domain.Map
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Helpers", "Helpers", "{B118C0C3-3194-4BC9-969C-F9C40B4E9541}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MovieApplication.Helpers", "MovieApplication.Helpers\MovieApplication.Helpers.csproj", "{2CF6677A-CA40-495F-9FF3-7BA761ABBC7A}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MovieApplication.Helpers.Hangfire", "MovieApplication.Helpers.Hangfire\MovieApplication.Helpers.Hangfire.csproj", "{D2A0FFC2-BC01-4403-B868-0E625048E1C0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MovieApplication.Helpers.Hangfire", "MovieApplication.Helpers.Hangfire\MovieApplication.Helpers.Hangfire.csproj", "{D2A0FFC2-BC01-4403-B868-0E625048E1C0}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -51,10 +49,6 @@ Global
 		{30F55AAC-AC44-4497-BF80-E6C0A43A96D8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{30F55AAC-AC44-4497-BF80-E6C0A43A96D8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{30F55AAC-AC44-4497-BF80-E6C0A43A96D8}.Release|Any CPU.Build.0 = Release|Any CPU
-		{2CF6677A-CA40-495F-9FF3-7BA761ABBC7A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{2CF6677A-CA40-495F-9FF3-7BA761ABBC7A}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{2CF6677A-CA40-495F-9FF3-7BA761ABBC7A}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{2CF6677A-CA40-495F-9FF3-7BA761ABBC7A}.Release|Any CPU.Build.0 = Release|Any CPU
 		{D2A0FFC2-BC01-4403-B868-0E625048E1C0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{D2A0FFC2-BC01-4403-B868-0E625048E1C0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D2A0FFC2-BC01-4403-B868-0E625048E1C0}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -69,7 +63,6 @@ Global
 		{B251B7C1-DF7B-4519-BF8A-B1353183F3AA} = {9CF28566-0FF4-4FC2-8CE0-F37A94A2FEEB}
 		{D2AC69E9-B05C-43AD-BD4B-DBCB34E25430} = {3DC240E5-8224-45DB-9A5B-9D2351E665A4}
 		{30F55AAC-AC44-4497-BF80-E6C0A43A96D8} = {3DC240E5-8224-45DB-9A5B-9D2351E665A4}
-		{2CF6677A-CA40-495F-9FF3-7BA761ABBC7A} = {B118C0C3-3194-4BC9-969C-F9C40B4E9541}
 		{D2A0FFC2-BC01-4403-B868-0E625048E1C0} = {B118C0C3-3194-4BC9-969C-F9C40B4E9541}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution

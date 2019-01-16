@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using MovieApplication.Core.Service.Service.ServiceInterfaces;
 using MovieApplication.Domain.Dto.Models;
@@ -10,27 +11,40 @@ using Swashbuckle.AspNetCore.SwaggerGen;
 
 namespace MovieApplication.Controllers
 {
-    public class MovieController : Controller
+    [Route("[controller]")]
+    [ApiController]
+    public class ApiController : ControllerBase
     {
         private readonly IMovieIntegrationService _movieIntegrationService;
-        private readonly IMovieService _movieService;
+        private readonly IUserService _userService;
 
-        public MovieController(IMovieIntegrationService movieIntegrationService, IMovieService movieService)
+        public ApiController(IMovieIntegrationService movieIntegrationService, IUserService userService)
         {
             _movieIntegrationService = movieIntegrationService;
-            _movieService = movieService;
+            _userService = userService;
         }
-        
+
 
         [HttpPost]
         [ResponseCache(Duration = 600, VaryByHeader = "*")]
         [TokenValidation]
-        public async Task<Movie> Search([FromQuery]string query)
+        [Route("Search")]
+        [SwaggerResponse(200, Type = typeof(Movie))]
+        public async Task<Movie> Search([FromQuery] string query)
         {
             var movie = await _movieIntegrationService.Search(query);
             await _movieIntegrationService.InsertMovieToDbIfNotExists(movie);
 
             return movie;
+        }
+
+        [HttpPost]
+        [Route("Login")]
+        [SwaggerResponse(200, Type = typeof(string))]
+        public async Task<string> Login(User user)
+        {
+            var token = await _userService.Login(user);
+            return token;
         }
     }
 }
