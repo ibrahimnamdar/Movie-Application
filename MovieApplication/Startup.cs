@@ -104,7 +104,7 @@ namespace MovieApplication
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, IRecurringJobManager recurringJobs, ILoggerFactory loggerFactory)
         {
             
-            recurringJobs.AddOrUpdate("UpdateMovies", Job.FromExpression<IMovieService>(x => x.UpdateAllMovies()), Cron.MinuteInterval(1)); if (env.IsDevelopment())
+            recurringJobs.AddOrUpdate("UpdateMovies", Job.FromExpression<IMovieService>(x => x.UpdateAllMovies()), Cron.MinuteInterval(10)); if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
             }
